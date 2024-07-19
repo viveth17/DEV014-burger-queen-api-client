@@ -1,0 +1,107 @@
+.logincontainer {
+    display: grid;
+    grid-template-rows: 100px 350px 100px 100px auto;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    justify-items: center;
+    align-items: center;
+}
+
+.titleContainer {
+    grid-area: 1 / 1 / 2 / 2;
+    position: relative;
+}
+
+.logoContainer {
+    grid-area: 2 / 1 / 3 / 2;
+}
+
+.emailContainer {
+    grid-area: 3 / 1 / 4 / 2;
+    display: flex;
+    align-items: self-end;
+    gap: 10px;
+    padding-bottom: 80px;
+    padding-right: 36px;
+    padding-right: 146px;
+}
+
+.passwordContainer {
+    grid-area: 4 / 1 / 5 / 2;
+    display: flex;
+    align-items: self-end;
+    gap: 10px;
+    padding-bottom: 80px;
+    padding-right: 146px;
+}
+
+.buttonContainer {
+    grid-area: 5 / 1 / 6 / 2;
+}
+
+.logo {
+    width: 622px;
+    height: 279px;
+    margin-bottom: 20px;
+}
+
+.title {
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 40px;
+    margin-top: 50px;
+    text-align: center;
+    font-weight: 600;
+    position: relative;
+}
+
+.nameinput {
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.emailContainer input,
+.passwordContainer input {
+    font-size: 20px;
+    font-family: 'Montserrat', sans-serif;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 479px;
+    height: 40px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding-right: 146px;
+
+}
+
+.button {
+    background-color: #5D942E;
+    color: white;
+    font-size: 30px;
+    font-family: 'Montserrat', sans-serif;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    font-weight: 600;
+    max-width: 300px;
+}
+
+.error {
+    color: red;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.crownIcon {
+    vertical-align: super;
+    margin-left: -40px;
+    color: gold;
+    transform: rotate(15deg);
+    margin-bottom: 14px;
+
+}
