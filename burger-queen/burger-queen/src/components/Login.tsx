@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../styles/Login.module.css';
 import { GiCrown } from 'react-icons/gi';
-import { loginApi } from '../services/apiService';
+// import { loginApi } from '../services/apiService';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
