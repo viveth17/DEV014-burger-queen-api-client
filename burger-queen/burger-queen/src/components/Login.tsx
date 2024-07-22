@@ -4,6 +4,7 @@ import { GiCrown } from 'react-icons/gi';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { loginApi } from '../services/APIService';
+import { useNavigate } from 'react-router-dom';
 
 const schema = Yup.object().shape({
     email: Yup.string().email('Email inválido').required('El Email es obligatorio'),
@@ -12,10 +13,12 @@ const schema = Yup.object().shape({
 
 const Login: React.FC = () => {
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const submitForm = async (values: { email: string; password: string; }) => {
         try {
             await loginApi(values.email, values.password);
+            navigate('/orders'); //ingreso al sistema de pedidos
         } catch (err) {
             setError('Email o contraseña inválidos');
         }
