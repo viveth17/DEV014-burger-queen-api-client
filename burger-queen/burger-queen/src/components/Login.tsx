@@ -1,21 +1,34 @@
 import React, { useState } from 'react';
 import styles from '../styles/Login.module.css';
 import { GiCrown } from 'react-icons/gi';
-// import { loginApi } from '../services/apiService';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { loginApi } from '../services/APIService';
+
+const schema = Yup.object().shape({
+    email: Yup.string().email('Email inválido').required('El Email es obligatorio'),
+    password: Yup.string().min(6, 'La contraseña debe tener al menos 6 carácteres').required('La contraseña es obligatoria'),
+});
 
 const Login: React.FC = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-    const handleLogin = () => {
-        if (email === 'usuario@example.com' && password === 'password') {
-            // Redireccionar al sistema de pedidos si las credenciales son correctas
-            window.location.href = '/sistema-pedidos';
-        } else {
-            setError('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
+    const submitForm = async (values: { email: string; password: string; }) => {
+        try {
+            await loginApi(values.email, values.password);
+        } catch (err) {
+            setError('Email o contraseña inválidos');
         }
     };
+
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: '',
+        },
+        onSubmit: submitForm,
+        validationSchema: schema,
+    });
 
     return (
         <div className={styles.logincontainer}>
@@ -26,29 +39,37 @@ const Login: React.FC = () => {
             <div className={styles.logoContainer}>
                 <img className={styles.logo} src="/IMAGEN HAMBURGUESA.png" alt="Hamburguesa" />
             </div>
-            <div className={styles.emailContainer}>
-                <p className={styles.nameinput}></p>
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder='Email:'
-                />
-            </div>
-            <div className={styles.passwordContainer}>
-                <p className={styles.nameinput}></p>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder='Password:'
-                />
-            </div>
-            <div className={styles.buttonContainer}>
-                <button className={styles.button} onClick={handleLogin}>
-                    INGRESAR
-                </button>
-            </div>
+            <form onSubmit={formik.handleSubmit}>
+                <div className={styles.emailContainer}>
+                    <p className={styles.nameinput}></p>
+                    <input
+                        type="email"
+                        name="email"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        placeholder='Email:'
+                    />
+                    {formik.touched.email && formik.errors.email ? <span>{formik.errors.email}</span> : null}
+                </div>
+                <div className={styles.passwordContainer}>
+                    <p className={styles.nameinput}></p>
+                    <input
+                        type="password"
+                        name="password"
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        placeholder='Password:'
+                    />
+                    {formik.touched.password && formik.errors.password ? <span>{formik.errors.password}</span> : null}
+                </div>
+                <div className={styles.buttonContainer}>
+                    <button className={styles.button} type="submit">
+                        INGRESAR
+                    </button>
+                </div>
+            </form>
         </div>
     );
 };
