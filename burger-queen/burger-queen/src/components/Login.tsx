@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styles from '../styles/Login.module.css';
-import { GiCrown } from 'react-icons/gi';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { loginApi } from '../services/APIService';
 import { useNavigate } from 'react-router-dom';
+import { Logo } from './Logo';
 
 const schema = Yup.object().shape({
     email: Yup.string().email('Email inválido').required('El Email es obligatorio'),
@@ -35,9 +35,7 @@ const Login: React.FC = () => {
 
     return (
         <div className={styles.logincontainer}>
-            <div className={styles.titleContainer}>
-                <h1 className={styles.title}> BURGER QUEEN <GiCrown className={styles.crownIcon} /></h1>
-            </div>
+            < Logo />
             {error && <p className={styles.error}>{error}</p>}
             <div className={styles.logoContainer}>
                 <img className={styles.logo} src="/IMAGEN HAMBURGUESA.png" alt="Hamburguesa" />

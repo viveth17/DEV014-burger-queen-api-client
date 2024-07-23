@@ -1,0 +1,19 @@
+.titleContainer {
+    position: relative;
+}
+.title {
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 40px;
+    text-align: center;
+    font-weight: 600;
+    position: relative;
+}
+.crownIcon {
+    vertical-align: super;
+    margin-left: -40px;
+    color: gold;
+    transform: rotate(15deg);
+    margin-bottom: 14px;
+
+}
