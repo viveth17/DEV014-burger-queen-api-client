@@ -17,8 +17,14 @@ const Login: React.FC = () => {
 
     const submitForm = async (values: { email: string; password: string; }) => {
         try {
-            await loginApi(values.email, values.password);
-            navigate('/orders'); //ingreso al sistema de pedidos
+            const response = await loginApi(values.email, values.password);
+            const token = response.accessToken;
+
+            //Guarda el token en localStorage
+            localStorage.setItem('authToken', token);
+
+            //Navega al componente Orders
+            navigate('/products'); //ingreso al sistema de pedidos
         } catch (err) {
             setError('Email o contraseña inválidos');
         }

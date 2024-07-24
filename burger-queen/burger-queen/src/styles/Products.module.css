@@ -198,3 +198,33 @@
     background-color: #C6C6C5;
     color: white;
 }
+.productImage{
+    height: 100px;
+    width: 209px;
+    background: #ede6dd;
+    object-fit: contain;
+    padding: 5px 0;
+    border-radius: 6px;
+}
+.containerTitlePrice {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-gap: 8px;
+}
+.containerTitlePrice > p{
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    margin: 0;
+}
+.containerTitlePrice > p:not(.productPrice){
+    color: white;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline;
+    text-overflow: ellipsis;
+    max-width: 162px;
+}
+.productPrice {
+    color: #FFC300;
+}
