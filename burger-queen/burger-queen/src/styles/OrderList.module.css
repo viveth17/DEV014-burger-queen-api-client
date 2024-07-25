@@ -1,0 +1,41 @@
+.titleArt {
+    margin: 0px 14px;
+    color: #FFC300;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.titleCant {
+    color: #FFC300;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif
+}
+
+.titlePrice {
+    color: #FFC300;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif
+}
+.nameProduct{
+    color:white;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif
+}
+.totalPrice{
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif
+}
+.containerList{
+    background: #ffffff17;
+    border-radius: 10px;
+    gap: 20px;
+    padding: 10px;
+    max-height: max-content;
+    overflow: scroll;
+}
