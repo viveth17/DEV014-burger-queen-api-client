@@ -21,7 +21,7 @@ export async function loginApi(email: string, password: string) {
     const data = await response.json();
 
   
-    console.log('API Response:', data);
+    // console.log('API Response:', data);
 
 
     const token = data.accessToken;
@@ -30,15 +30,15 @@ export async function loginApi(email: string, password: string) {
     }
 
     
-    console.log('Token:', token);
+    // console.log('Token:', token);
 
 
 
     localStorage.setItem('authToken', token);
 
   
-    const storedToken = localStorage.getItem('authToken');
-    console.log('Stored Token:', storedToken);
+    // const storedToken = localStorage.getItem('authToken');
+    // console.log('Stored Token:', storedToken);
 
 
     return data;
@@ -78,7 +78,7 @@ export const getProducts = async ({ page, limit, type }: GetProductsParams) => {
         const data = await response.json();
 
         
-        console.log(data); 
+        // console.log(data); 
         return data;
     } catch (error) {
         
