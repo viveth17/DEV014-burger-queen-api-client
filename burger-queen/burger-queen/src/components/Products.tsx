@@ -4,6 +4,8 @@ import { ChangeEvent, useState, useEffect } from 'react';
 import { getProducts } from '../services/APIService';
 import { GetProductsParams, Product } from '../types/types';
 import { filterData } from '../utils/filterData';
+import OrderList from './OrderList';
+
 
 
 export default function Products() {
@@ -12,8 +14,10 @@ export default function Products() {
     const [products, setProducts] = useState<Product[]>([]);
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
     const [validProductImages, setValidProductImages] = useState<{ [key: string]: boolean }>({});
-    const [filterType, setFilterType] = useState<string[]>(["Beverages", "Breakfast"]); 
-    const [selectedButton, setSelectedButton] = useState<string>('breakfast'); 
+    const [filterType, setFilterType] = useState<string[]>(["Beverages", "Breakfast"]);
+    const [selectedButton, setSelectedButton] = useState<string>('breakfast');
+    const [orders, setOrders] = useState<Product[]>([]);
+    const [buttonColor, setButtonColor] = useState('#C6C6C5');
 
     const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
@@ -66,8 +70,8 @@ export default function Products() {
     };
 
     useEffect(() => {
-        fetchProducts();
-    }, []);
+        fetchProducts(), [];
+    },);
 
     useEffect(() => {
         setFilteredProducts(filterData(products, filterType));
@@ -75,8 +79,48 @@ export default function Products() {
 
     const handleFilterChange = (types: string[], button: string) => {
         setFilterType(types);
-        setSelectedButton(button); 
+        setSelectedButton(button);
     };
+    const handleProductClick = (product: Product) => {
+        setOrders(prevOrders => {
+            const existingOrder = prevOrders.find(order => order.id === product.id);
+            if (existingOrder) {
+                return prevOrders.map(order =>
+                    order.id === product.id ? { ...order, quantity: order.quantity + 1 } : order
+                );
+            } else {
+                return ([...prevOrders, { ...product, quantity: 1 }]);
+            }
+        });
+    };
+    const handleRemove = (id: number) => {
+        setOrders(prevOrders => {
+            const existingProduct = prevOrders.find(order => order.id === id);
+            if (existingProduct && existingProduct.quantity > 1) {
+                return prevOrders.map(order =>
+                    order.id === id ? { ...order, quantity: order.quantity - 1 } : order
+                );
+            } else {
+                return prevOrders.filter(order => order.id !== id);
+            }
+        });
+    };
+
+    const handleAddQuantity = (id: number) => {
+        setOrders(prevOrders =>
+            prevOrders.map(order =>
+                order.id === id ? { ...order, quantity: order.quantity + 1 } : order
+            )
+        );
+    };
+
+    useEffect(() => {
+        if (orders.length > 0) {
+            setButtonColor('green');
+        } else {
+            setButtonColor('#C6C6C5');
+        }
+    }, [orders]);
 
 
     return (
@@ -102,7 +146,7 @@ export default function Products() {
             </div>
             <div className={styles.containerProducts}>
                 {filteredProducts.map(product => (
-                    <div key={product.id} className={styles.product}>
+                    <div key={product.id} className={styles.product} onClick={() => handleProductClick(product)}>
                         <img
                             className={styles.productImage}
                             src={validProductImages[product.id] ? product.image : '/Image_not_available.png'}
@@ -115,16 +159,12 @@ export default function Products() {
                     </div>
                 ))}
             </div>
-            <div className={styles.orderList}>
-                <div className={styles.list}>
-                    <p> Art.seleccionado</p>
-                    <p> Cantidad</p>
-                    <p> Precio</p>
-                </div>
-                <p className={styles.total}>Total $0.00</p>
-                <div className={styles.containerButton}>
-                    <button className={styles.buttonCocina}> Enviar a cocina </button>
-                </div>
+            <OrderList orders={orders} onRemove={handleRemove} onAddQuantity={handleAddQuantity} />
+            <div className={styles.containerButton}>
+                <button className={styles.buttonCocina}
+                    style={{ backgroundColor: buttonColor }}
+                >
+                    Enviar a cocina </button>
             </div>
         </div>
     );
