@@ -5,6 +5,7 @@ import { getProducts } from '../services/APIService';
 import { GetProductsParams, Product } from '../types/types';
 import { filterData } from '../utils/filterData';
 import OrderList from './OrderList';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -18,6 +19,8 @@ export default function Products() {
     const [selectedButton, setSelectedButton] = useState<string>('breakfast');
     const [orders, setOrders] = useState<Product[]>([]);
     const [buttonColor, setButtonColor] = useState('#C6C6C5');
+
+    const navigate = useNavigate();
 
     const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
@@ -70,8 +73,8 @@ export default function Products() {
     };
 
     useEffect(() => {
-        fetchProducts(), [];
-    },);
+        fetchProducts();
+    }, []);
 
     useEffect(() => {
         setFilteredProducts(filterData(products, filterType));
@@ -122,6 +125,10 @@ export default function Products() {
         }
     }, [orders]);
 
+    const handleButtonClick = () => {
+        navigate('/kitchenOrders'); //ingreso al sistmea de pedidos a cocina 
+    }
+
 
     return (
         <div className={styles.container}>
@@ -161,7 +168,7 @@ export default function Products() {
             </div>
             <OrderList orders={orders} onRemove={handleRemove} onAddQuantity={handleAddQuantity} />
             <div className={styles.containerButton}>
-                <button className={styles.buttonCocina}
+                <button onClick={handleButtonClick} className={styles.buttonCocina}
                     style={{ backgroundColor: buttonColor }}
                 >
                     Enviar a cocina </button>
