@@ -6,6 +6,9 @@ import { GetProductsParams, Product } from '../types/types';
 import { filterData } from '../utils/filterData';
 import OrderList from './OrderList';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBowlRice } from '@fortawesome/free-solid-svg-icons';
+
 
 
 
@@ -19,6 +22,7 @@ export default function Products() {
     const [selectedButton, setSelectedButton] = useState<string>('breakfast');
     const [orders, setOrders] = useState<Product[]>([]);
     const [buttonColor, setButtonColor] = useState('#C6C6C5');
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const navigate = useNavigate();
 
@@ -126,6 +130,14 @@ export default function Products() {
     }, [orders]);
 
     const handleButtonClick = () => {
+        if (name.trim() === '') {
+            setErrorMessage("Es necesario ingresar el nombre del cliente");
+            return;
+        }
+        setErrorMessage(null);
+        navigate('/kitchenOrders'); //ingreso al sistmea de pedidos a cocina 
+    }
+    const handleButtonKitchenClick = () => {
         navigate('/kitchenOrders'); //ingreso al sistmea de pedidos a cocina 
     }
 
@@ -140,16 +152,23 @@ export default function Products() {
                 <button className={`${styles.lunchdinner} ${selectedButton === 'lunchdinner' ? 'selected' : 'unselected'}`}
                     onClick={() => handleFilterChange(['Beverages', 'Lunch', 'Combos', 'Sides'], 'lunchdinner')}
                 >Almuerzo y cena</button>
+                <button onClick={handleButtonKitchenClick} className={styles.pedidos}>
+                    <FontAwesomeIcon icon={faBowlRice} />
+                    <span>Pedidos</span>
+                </button>
             </div>
             <div className={styles.containerNameClient}>
                 <p>Cliente:</p>
-                <input
-                    type="text"
-                    name="nameClient"
-                    value={name}
-                    onChange={handleNameChange}
-                    className={styles.input}
-                />
+                <div className={styles.inputcontainer}>
+                    <input
+                        type="text"
+                        name="nameClient"
+                        value={name}
+                        onChange={handleNameChange}
+                        className={`${styles.input} ${errorMessage ? styles.inputError : ''}`}
+                    />
+                    {errorMessage && <span className={styles.errorMessage}>{errorMessage}</span>}
+                </div>
             </div>
             <div className={styles.containerProducts}>
                 {filteredProducts.map(product => (

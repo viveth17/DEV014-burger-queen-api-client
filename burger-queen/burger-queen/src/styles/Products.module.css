@@ -43,7 +43,7 @@
     grid-area: menus;
     display: flex;
     justify-content: start;
-    gap: 20px;
+    gap: 25px;
     flex-wrap: wrap;
     align-content: center;
 }
@@ -64,11 +64,13 @@
     background-color: #FFC300;
     color: #000000;
 }
+
 .containerMenus button.breakfast.selected,
 .containerMenus button.breakfast:hover {
     background-color: #e0a800;
     color: #FFFFFF;
 }
+
 .containerMenus button.breakfast.unselected {
     background-color: #FFFFFF;
     color: #000000;
@@ -77,7 +79,7 @@
 .containerMenus button.lunchdinner {
     background-color: #FFFFFF;
     color: #000000;
-    width: 267.08px; 
+    width: 267.08px;
 }
 
 .containerMenus button.lunchdinner.selected,
@@ -85,6 +87,7 @@
     background-color: #e0a800;
     color: #FFFFFF;
 }
+
 .containerMenus button.lunchdinner.unselected {
     background-color: #FFFFFF;
     color: #000000;
@@ -112,28 +115,36 @@
 .containerNameClient {
     grid-area: name;
     display: flex;
-    gap: 20px;
-    justify-content: end;
     flex-direction: column;
+    gap: 10px;
+    justify-content: flex-start;
 }
 
 .containerNameClient p {
     color: white;
-    font-size: 18px;
-    font-weight: bold;
     font-size: 24px;
     font-weight: 600;
     font-family: 'Montserrat', sans-serif;
     margin: 0;
 }
 
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+}
+
 .containerNameClient input {
-    width: 406px;
+    width: 100%;
+    max-width: 406px;
     height: 39px;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 16px;
+}
+
+.inputError {
+    border-color: red;
 }
 
 .containerProducts {
@@ -256,6 +267,13 @@
 .productPrice {
     color: #FFC300;
 }
+
 .trashIcon {
-    color: #FFC300;       
-  }
+    color: #FFC300;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 18px;
+    margin-top: 10px;
+}
