@@ -13,9 +13,8 @@ export interface GetProductsParams {
     limit: number;
     type?: string;
 }
-
 export interface OrderListProps {
-    orders: Product[];
+    orders: OrderProduct[];
     onRemove: (id: number) => void;
     onAddQuantity: (id: number) => void;
 }
