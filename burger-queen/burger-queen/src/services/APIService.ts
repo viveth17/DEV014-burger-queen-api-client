@@ -20,7 +20,7 @@ export async function loginApi(email: string, password: string) {
 
     const data = await response.json();
 
-  
+
     // console.log('API Response:', data);
 
 
@@ -29,21 +29,21 @@ export async function loginApi(email: string, password: string) {
         throw new Error('Token is missing in the response');
     }
 
-    
+
     // console.log('Token:', token);
 
 
 
     localStorage.setItem('authToken', token);
 
-  
+
     // const storedToken = localStorage.getItem('authToken');
     // console.log('Stored Token:', storedToken);
 
 
     return data;
 
-    
+
 }
 
 
@@ -56,36 +56,76 @@ export const getProducts = async ({ page, limit, type }: GetProductsParams) => {
         if (!token) {
             throw new Error('No token found');
         }
-        
+
         let url = `http://localhost:8080/products?_page=${page}&_limit=${limit}`;
         if (type) {
             url += `&type=${type}`;
         }
 
-       
+
         const response = await fetch(url, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             },
         });
 
-    
+
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
 
-       
+
         const data = await response.json();
 
-        
+
         // console.log(data); 
         return data;
     } catch (error) {
-        
+
         console.error('Error fetching products:', error);
         throw error;
     }
 };
+
+//Función para obtener ordenes de burger queen api mock
+
+export const getOrders = async ({ page, limit, type }: GetProductsParams) => {
+    try {
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        let url = `http://localhost:8080/orders?_page=${page}&_limit=${limit}`;
+        if (type) {
+            url += `&type=${type}`;
+        }
+
+        const response = await fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+
+        const data = await response.json();
+
+
+        // console.log(data); 
+        return data;
+    } catch (error) {
+
+        console.error('Error fetching products:', error);
+        throw error;
+    }
+};
+
+
 
 
 

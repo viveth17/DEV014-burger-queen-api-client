@@ -17,5 +17,18 @@ export interface GetProductsParams {
 export interface OrderListProps {
     orders: Product[];
     onRemove: (id: number) => void;
-    onAddQuantity: (id: number) => void; 
+    onAddQuantity: (id: number) => void;
+}
+export interface OrderProduct {
+    qty: number;
+    product: Product;
+}
+export interface Order {
+    id: number;
+    userId: number;
+    client: string;
+    products: OrderProduct[];
+    status: string;
+    dateEntry: string;
+    dateProcessed?: string;
 }
