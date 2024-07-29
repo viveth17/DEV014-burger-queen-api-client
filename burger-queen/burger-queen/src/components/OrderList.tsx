@@ -8,33 +8,33 @@ import styles from '../styles/OrderList.module.css';
 
 const OrderList: React.FC<OrderListProps> = ({ orders, onRemove, onAddQuantity }) => {
     const calculateTotal = () => {
-        return orders.reduce((total, product) => total + (product.price * product.quantity), 0).toFixed(2);
+        return orders.reduce((total, order) => total + (order.product.price * order.qty), 0).toFixed(2);
     };
     return (
         <div className={styles.containerList}>
             <Box sx={{ width: '100%', maxWidth: 600, mx: 'auto', mt: 4 }}>
                 <Typography variant="h6" gutterBottom className={styles.titleArt}>Productos seleccionados: </Typography>
                 <List>
-                    {orders.map(product => (
-                        <ListItem key={product.id}>
+                    {orders.map(order => (
+                        <ListItem key={order.product.id}>
                             <ListItemText
-                                primary={product.name}
+                                primary={order.product.name}
                                 className={styles.nameProduct}
                                 secondary={
                                     <>
                                         <Typography variant="body2" component="span" className={styles.titleCant}>
-                                            Cantidad: {product.quantity}
+                                            Cantidad: {order.qty}
                                         </Typography>
                                         <Typography variant="body2" component="span" className={styles.titlePrice} sx={{ marginLeft: 2 }}>
-                                            Precio: ${product.price * product.quantity}
+                                            Precio: ${order.product.price * order.qty}
                                         </Typography>
                                     </>
                                 }
                             />
-                            <IconButton edge="end" aria-label="add" onClick={() => onAddQuantity(product.id)}>
+                            <IconButton edge="end" aria-label="add" onClick={() => onAddQuantity(order.product.id)}>
                                 <AddIcon style={{ color: "peachpuff" }} />
                             </IconButton>
-                            <IconButton edge="end" aria-label="delete" onClick={() => onRemove(product.id)}>
+                            <IconButton edge="end" aria-label="delete" onClick={() => onRemove(order.product.id)}>
                                 <FontAwesomeIcon icon={faTrash} style={{ color: "peachpuff" }} />
                             </IconButton>
                         </ListItem>
@@ -44,7 +44,7 @@ const OrderList: React.FC<OrderListProps> = ({ orders, onRemove, onAddQuantity }
                     Total: ${calculateTotal()}
                 </Typography>
             </Box>
-            </div>
+        </div>
     );
 };
 

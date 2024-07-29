@@ -1,4 +1,4 @@
-import { GetProductsParams } from "../types/types";
+import { GetProductsParams, Order } from "../types/types";
 
 //Función para iniciar sesión //
 export async function loginApi(email: string, password: string) {
@@ -19,28 +19,11 @@ export async function loginApi(email: string, password: string) {
     }
 
     const data = await response.json();
-
-
-    // console.log('API Response:', data);
-
-
     const token = data.accessToken;
     if (!token) {
         throw new Error('Token is missing in the response');
     }
-
-
-    // console.log('Token:', token);
-
-
-
     localStorage.setItem('authToken', token);
-
-
-    // const storedToken = localStorage.getItem('authToken');
-    // console.log('Stored Token:', storedToken);
-
-
     return data;
 
 
@@ -48,7 +31,6 @@ export async function loginApi(email: string, password: string) {
 
 
 //Función para obtner productos de burger queen api mock//
-
 
 export const getProducts = async ({ page, limit, type }: GetProductsParams) => {
     try {
@@ -68,17 +50,10 @@ export const getProducts = async ({ page, limit, type }: GetProductsParams) => {
                 'Authorization': `Bearer ${token}`,
             },
         });
-
-
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-
-
         const data = await response.json();
-
-
-        // console.log(data); 
         return data;
     } catch (error) {
 
@@ -106,17 +81,10 @@ export const getOrders = async ({ page, limit, type }: GetProductsParams) => {
                 'Authorization': `Bearer ${token}`,
             },
         });
-
-
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-
-
         const data = await response.json();
-
-
-        // console.log(data); 
         return data;
     } catch (error) {
 
@@ -124,6 +92,33 @@ export const getOrders = async ({ page, limit, type }: GetProductsParams) => {
         throw error;
     }
 };
+
+
+//Función para crear una orden//
+
+export async function CreateOrden(order: Order): Promise<unknown> {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+        throw new Error('No token found');
+    }
+
+    const response = await fetch('http://localhost:8080/orders', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(order),
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to create order');
+    }
+
+    const data = await response.json();
+    return data;
+}
 
 
 

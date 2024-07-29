@@ -1,15 +1,17 @@
 import styles from '../styles/Products.module.css';
 import { Logo } from './Logo';
 import { ChangeEvent, useState, useEffect } from 'react';
-import { getProducts } from '../services/APIService';
-import { GetProductsParams, Product } from '../types/types';
+import { getProducts, CreateOrden } from '../services/APIService';
+import { GetProductsParams, Product, Order, OrderProduct } from '../types/types';
 import { filterData } from '../utils/filterData';
 import OrderList from './OrderList';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBowlRice } from '@fortawesome/free-solid-svg-icons';
+import Modal from 'react-modal';
 
 
+Modal.setAppElement('#root');
 
 
 export default function Products() {
@@ -20,9 +22,12 @@ export default function Products() {
     const [validProductImages, setValidProductImages] = useState<{ [key: string]: boolean }>({});
     const [filterType, setFilterType] = useState<string[]>(["Beverages", "Breakfast"]);
     const [selectedButton, setSelectedButton] = useState<string>('breakfast');
-    const [orders, setOrders] = useState<Product[]>([]);
+    const [orders, setOrders] = useState<OrderProduct[]>([]);
     const [buttonColor, setButtonColor] = useState('#C6C6C5');
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [confirmationMessage, setConfirmationMessage] = useState('');
+
 
     const navigate = useNavigate();
 
@@ -90,25 +95,25 @@ export default function Products() {
     };
     const handleProductClick = (product: Product) => {
         setOrders(prevOrders => {
-            const existingOrder = prevOrders.find(order => order.id === product.id);
+            const existingOrder = prevOrders.find(order => order.product.id === product.id);
             if (existingOrder) {
                 return prevOrders.map(order =>
-                    order.id === product.id ? { ...order, quantity: order.quantity + 1 } : order
+                    order.product.id === product.id ? { ...order, qty: order.qty + 1 } : order
                 );
             } else {
-                return ([...prevOrders, { ...product, quantity: 1 }]);
+                return ([...prevOrders, { qty: 1, product }]);
             }
         });
     };
     const handleRemove = (id: number) => {
         setOrders(prevOrders => {
-            const existingProduct = prevOrders.find(order => order.id === id);
-            if (existingProduct && existingProduct.quantity > 1) {
+            const existingProduct = prevOrders.find(order => order.product.id === id);
+            if (existingProduct && existingProduct.qty > 1) {
                 return prevOrders.map(order =>
-                    order.id === id ? { ...order, quantity: order.quantity - 1 } : order
+                    order.product.id === id ? { ...order, qty: order.qty - 1 } : order
                 );
             } else {
-                return prevOrders.filter(order => order.id !== id);
+                return prevOrders.filter(order => order.product.id !== id);
             }
         });
     };
@@ -116,7 +121,7 @@ export default function Products() {
     const handleAddQuantity = (id: number) => {
         setOrders(prevOrders =>
             prevOrders.map(order =>
-                order.id === id ? { ...order, quantity: order.quantity + 1 } : order
+                order.product.id === id ? { ...order, qty: order.qty + 1 } : order
             )
         );
     };
@@ -129,16 +134,48 @@ export default function Products() {
         }
     }, [orders]);
 
-    const handleButtonClick = () => {
+    const handleButtonClick = async () => {
         if (name.trim() === '') {
             setErrorMessage("Es necesario ingresar el nombre del cliente");
             return;
         }
         setErrorMessage(null);
-        navigate('/kitchenOrders'); //ingreso al sistmea de pedidos a cocina 
-    }
+        // Crear el objeto de la orden
+        const order: Order = {
+            id: Date.now(),
+            userId: 1,
+            client: name,
+            products: orders.map(order => ({
+                qty: order.qty,
+                product: {
+                    id: order.product.id,
+                    name: order.product.name,
+                    price: order.product.price,
+                    image: order.product.image,
+                    type: order.product.type,
+                    dateEntry: new Date().toISOString(),
+                    quantity: order.qty
+                },
+            })),
+            status: 'pending',
+            dateEntry: new Date().toISOString(),
+        };
+
+        try {
+            await CreateOrden(order);
+            setConfirmationMessage("Pedido enviado a cocina exitosamente");
+            setModalIsOpen(true);
+            // navigate('/kitchenOrders'); //ingreso al sistmea de pedidos a cocina 
+        } catch (error) {
+            console.error('Failed to create order:', error);
+        }
+    };
+
     const handleButtonKitchenClick = () => {
         navigate('/kitchenOrders'); //ingreso al sistmea de pedidos a cocina 
+    }
+    const closeModal = () => {
+        setModalIsOpen(false);
     }
 
 
@@ -192,6 +229,16 @@ export default function Products() {
                 >
                     Enviar a cocina </button>
             </div>
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                contentLabel="Confirmación de Pedido"
+                className={styles.modal}
+                overlayClassName={styles.overlay}
+            >
+                <h2>{confirmationMessage}</h2>
+                <button onClick={closeModal} className={styles.modalButton}>Cerrar</button>
+            </Modal>
         </div>
     );
 }
