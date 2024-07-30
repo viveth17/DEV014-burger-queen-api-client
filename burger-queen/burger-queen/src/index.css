@@ -2,6 +2,10 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  /* height: 100vh;
+  margin: 0;
+  max-height: max-content;
+  overflow: scroll; */
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
@@ -25,7 +29,7 @@ a:hover {
 
 body {
   background-color: #2D142C;
- 
+
 }
 
 h1 {

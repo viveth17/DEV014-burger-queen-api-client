@@ -1,11 +1,12 @@
+import { Logo } from './Logo'
 import OrderCard from './OrderCard'
 
 export default function kitchenOrders() {
     return (
-        <div>
-            <h1> Kitchen Orders </h1>
+        <><Logo /><div>
+            <h1></h1>
             <OrderCard />
 
-        </div>
+        </div></>
     )
 }
