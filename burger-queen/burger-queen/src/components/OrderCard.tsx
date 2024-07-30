@@ -12,7 +12,7 @@ export default function OrderCard() {
         const fetchOrders = async () => {
             const params: GetProductsParams = {
                 page: 1,
-                limit: 20,
+                limit: 100,
                 type: '',
             };
             try {
@@ -26,7 +26,7 @@ export default function OrderCard() {
     }, []);
 
     return (
-        <div>
+        <div className={styles.containerPrincipal}>
             {orders.map(order => (
                 <div key={order.id} className={styles.containerCard}>
                     <div className={styles.containerId}>ID: {order.id}</div>

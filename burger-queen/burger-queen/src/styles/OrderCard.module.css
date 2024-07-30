@@ -5,7 +5,7 @@
     border-radius: 8px;
     padding: 16px;
     margin: 8px 0;
-    background-color: #fff;
+    background-color: #f6efd9;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease-in-out;
 }
@@ -14,11 +14,17 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.containerId, .containerNameClient, .containerDateEntry, .containerProducts, .buttonStatus {
+.containerId,
+.containerNameClient,
+.containerDateEntry,
+.containerProducts,
+.buttonStatus {
     margin-bottom: 8px;
 }
 
-.containerId, .containerNameClient, .containerDateEntry {
+.containerId,
+.containerNameClient,
+.containerDateEntry {
     font-size: 16px;
     font-weight: 500;
 }
@@ -28,7 +34,8 @@
     flex-direction: column;
 }
 
-.nameProduct, .quantity {
+.nameProduct,
+.quantity {
     font-size: 14px;
     margin-bottom: 4px;
 }
@@ -36,7 +43,7 @@
 .buttonStatus {
     align-self: flex-end;
     padding: 8px 16px;
-    background-color: #007bff;
+    background-color: #9070ba;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -46,4 +53,11 @@
 
 .buttonStatus:hover {
     background-color: #0056b3;
+}
+
+.containerPrincipal {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+    padding: 0px 15px;
 }
