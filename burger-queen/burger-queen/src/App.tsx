@@ -3,6 +3,7 @@ import Login from './components/Login';
 import Products from './components/Products';
 import './App.css'
 import KitchenOrders from './components/kitchenOrders';
+import OrdersView from './components/OrdersView';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/kitchenOrders" element={<KitchenOrders />} />
         <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/ordersView" element={<OrdersView />} />
       </Routes>
     </Router>
   );

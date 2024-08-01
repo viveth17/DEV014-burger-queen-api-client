@@ -140,7 +140,7 @@ export default function Products() {
             return;
         }
         setErrorMessage(null);
-        // Crear el objeto de la orden
+        //  objeto de la orden
         const order: Order = {
             id: Date.now(),
             userId: 1,
@@ -165,7 +165,7 @@ export default function Products() {
             await CreateOrden(order);
             setConfirmationMessage("Pedido enviado a cocina exitosamente");
             setModalIsOpen(true);
-            // navigate('/kitchenOrders'); //ingreso al sistmea de pedidos a cocina 
+            // navigate('/ordersView'); //ingreso a la vista para el jefe de cocina (Ver pedidos)
         } catch (error) {
             console.error('Failed to create order:', error);
         }
@@ -183,6 +183,7 @@ export default function Products() {
         <div className={styles.container}>
             < Logo />
             <div className={styles.containerMenus}>
+                
                 <button className={`${styles.breakfast} ${selectedButton === 'breakfast' ? 'selected' : 'unselected'}`}
                     onClick={() => handleFilterChange(['Beverages', 'Breakfast'], 'breakfast')}
                 >Desayuno</button>

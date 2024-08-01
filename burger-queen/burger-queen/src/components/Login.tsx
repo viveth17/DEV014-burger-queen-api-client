@@ -22,9 +22,12 @@ const Login: React.FC = () => {
 
             //Guarda el token en localStorage
             localStorage.setItem('authToken', token);
-
-            //Navega al componente Orders
-            navigate('/products'); //ingreso al sistema de pedidos
+            if (values.email === 'admin@systers.xyz' || values.email === 'waiter@systers.xyz') {
+                navigate('/products'); //ingreso a la vista de seleccion de productos
+            } else {
+                //Navega al componente Orders
+                navigate('/ordersView'); //ingreso a la vista para el jefe de cocina (Ver pedidos)
+            }
         } catch (err) {
             setError('Email o contraseña inválidos');
         }
